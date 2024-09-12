@@ -149,12 +149,13 @@ def get_hparams(init=True):
   parser = argparse.ArgumentParser()
   parser.add_argument('-c', '--config', type=str, default="./configs/base.json",
                       help='JSON file for configuration')
+  parser.add_argument('-p', '--path', type=str, default="../drive/MyDrive/vits-finetune",
+                      help="Path of model directory.")
   parser.add_argument('-m', '--model', type=str, required=True,
                       help='Model name')
   
   args = parser.parse_args()
-  model_dir = "../drive/MyDrive/vits-finetune"
-  model_dir = os.path.join(model_dir, args.model)
+  model_dir = os.path.join(args.path, args.model)
 
   if not os.path.exists(model_dir):
     os.makedirs(model_dir)
