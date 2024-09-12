@@ -101,7 +101,7 @@ if __name__ == '__main__':
                             o2 = gr.Audio(label="Output Audio", elem_id=f"tts-audio")
                             download = gr.Button("Download Audio")
                         btn.click(tts_fn, inputs=[input_text, ns, nsw, ls, sid], outputs=[o1, o2], api_name=f"tts")
-                        download.click(None, [], [], _js=download_audio_js)
+                        download.click(None, [], [], js=download_audio_js)
     if args.colab:
         webbrowser.open("http://127.0.0.1:7860")
-    app.queue(concurrency_count=1, api_open=args.api).launch(share=args.share)
+    app.queue(api_open=args.api).launch(share=args.share)
