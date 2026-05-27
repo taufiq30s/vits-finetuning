@@ -105,11 +105,15 @@ def run(rank, n_gpus, hps):
   net_g = DDP(net_g, device_ids=[rank])
   net_d = DDP(net_d, device_ids=[rank])
 
+  if hasattr(torch, 'compile'):
+    net_g = torch.compile(net_g)
+    net_d = torch.compile(net_d)
+
   try:
     _, _, _, epoch_str = utils.load_checkpoint(utils.latest_checkpoint_path(hps.model_dir, "G_*.pth"), net_g, optim_g)
     _, _, _, epoch_str = utils.load_checkpoint(utils.latest_checkpoint_path(hps.model_dir, "D_*.pth"), net_d, optim_d)
     global_step = (epoch_str - 1) * len(train_loader)
-  except:
+  except Exception:
     epoch_str = 1
     global_step = 0
 

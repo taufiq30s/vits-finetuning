@@ -35,7 +35,7 @@ def load_checkpoint(checkpoint_path, model, optimizer=None):
   for k, v in state_dict.items():
     try:
       new_state_dict[k] = saved_state_dict[k]
-    except:
+    except KeyError:
       logger.info("%s is not in the checkpoint" % k)
       new_state_dict[k] = v
   if hasattr(model, 'module'):
@@ -99,8 +99,8 @@ def plot_spectrogram_to_numpy(spectrogram):
   plt.tight_layout()
 
   fig.canvas.draw()
-  data = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='')
-  data = data.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+  w, h = fig.canvas.get_width_height()
+  data = np.frombuffer(fig.canvas.buffer_rgba(), dtype=np.uint8).reshape(h, w, 4)[:, :, :3]
   plt.close()
   return data
 
@@ -128,8 +128,8 @@ def plot_alignment_to_numpy(alignment, info=None):
   plt.tight_layout()
 
   fig.canvas.draw()
-  data = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='')
-  data = data.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+  w, h = fig.canvas.get_width_height()
+  data = np.frombuffer(fig.canvas.buffer_rgba(), dtype=np.uint8).reshape(h, w, 4)[:, :, :3]
   plt.close()
   return data
 

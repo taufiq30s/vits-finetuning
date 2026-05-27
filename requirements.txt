@@ -1,10 +1,10 @@
 Cython
-librosa==0.9.1
+librosa>=0.10.2
 matplotlib
 numpy
 scipy
 tensorboard
-torch==1.13.1
+torch>=2.4.0
 torchvision
 unidecode
 pyopenjtalk
